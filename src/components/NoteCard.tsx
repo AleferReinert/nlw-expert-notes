@@ -7,26 +7,36 @@ import { DialogPortal } from './DialogPortal'
 
 interface NewNoteCardProps {
   asNewNote: true
+  onNoteAdded: (content: string) => void
+  id?: never
   date?: never
   content?: never
+  onNoteDeleted?: never
 }
 
-interface NoteCardProps {
+export interface NoteCardProps {
+  id: string
   date: Date
   content: string
+  onNoteDeleted(id: string): void
   asNewNote?: never
+  onNoteAdded?: never
 } 
 
-export function NoteCard({ date, content, asNewNote }: NewNoteCardProps | NoteCardProps) {
+let speechRecognition: SpeechRecognition | null = null
+
+export function NoteCard({ id, date, content, asNewNote, onNoteAdded, onNoteDeleted }: NewNoteCardProps | NoteCardProps) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
   const [textareaContent, setTextareaContent] = useState('')
   const title = asNewNote ? 'Adicionar nota' : formatDistanceToNow(date, { locale: ptBR, addSuffix: true}) 
+  const [isRecording, setIsRecording] = useState(false)
 
-  function handleStartEditor() {
+  const handleStartEditor = () => {
     setShouldShowOnboarding(false)
+    setIsRecording(false)
   }
-  
-  function handleFinishEditor() {
+
+  function handleStopEditor() {
     setShouldShowOnboarding(true)
   }
 
@@ -36,17 +46,62 @@ export function NoteCard({ date, content, asNewNote }: NewNoteCardProps | NoteCa
 
   function handleSaveNote(event: FormEvent) {
     event.preventDefault()
+    onNoteAdded && onNoteAdded(textareaContent)
     toast.success('Nota adicionada com sucesso!')
+    cleanContent()
   }
 
-  function onOpenDialog() {
-    handleFinishEditor()
+  function cleanContent() {
+    handleStopEditor()
     setTextareaContent('')
+    setIsRecording(false)
+  }
+
+  function handleStartRecording() {
+    const isSpeechRecognitionAPIAvailable = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
+    if(!isSpeechRecognitionAPIAvailable) {
+      toast.error(
+        'Seu navegador não tem suporte para gravação de áudio. Tente atualizar ou usar outro navegador.', 
+        {position: 'bottom-center', duration: 8000}
+      )
+      return
+    }
+    setIsRecording(true)
+    setShouldShowOnboarding(false)
+    const speechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
+    speechRecognition = new speechRecognitionAPI()
+    speechRecognition.lang = 'pt-BR'
+    speechRecognition.continuous = true
+    speechRecognition.maxAlternatives = 1 // quando não entende uma palavra, retorna apenas uma (a mais parecida)
+    speechRecognition.interimResults = true // retorna resultados enquanto fala
+
+    speechRecognition.onresult = (event) => {
+      const transcription = Array.from(event.results).reduce((text, result) => {
+        return text.concat(result[0].transcript)
+      }, '')
+      setTextareaContent(transcription)
+    }
+    speechRecognition.onerror = (event) => {
+      console.error(event)
+    }
+    speechRecognition.start()
+  }
+
+  function handleStopRecording(event: FormEvent) {
+    event.preventDefault()
+    setIsRecording(false)
+    if(speechRecognition !== null) {
+      speechRecognition.stop()
+    }
+
+    if(textareaContent === ''){
+      setShouldShowOnboarding(true)
+    }
   }
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger onClick={onOpenDialog} className='
+      <Dialog.Trigger onClick={cleanContent} className='
         bg-slate-700 rounded-md p-5 overflow-hidden relative ring-2 ring-transparent text-left flex flex-col outline-none
         transition-all hover:ring-slate-600 focus-visible:ring-lime-400
       '>
@@ -66,13 +121,18 @@ export function NoteCard({ date, content, asNewNote }: NewNoteCardProps | NoteCa
       <DialogPortal 
         shouldShowOnboarding={shouldShowOnboarding} 
         title={title} 
-        handleFinishEditor={handleFinishEditor}
         handleSaveNote={handleSaveNote}
         asNewNote={asNewNote}
         handleContentChanged={handleContentChanged}
         handleStartEditor={handleStartEditor}
         content={content}
         textareaContent={textareaContent}
+        handleStartRecording={handleStartRecording}
+        isRecording={isRecording}
+        cleanContent={cleanContent}
+        handleStopRecording={handleStopRecording}
+        onNoteDeleted={onNoteDeleted}
+        noteId={id}
       />
     </Dialog.Root>
   )
