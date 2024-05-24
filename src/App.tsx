@@ -8,7 +8,7 @@ export function App() {
 
       <form className="w-full">
         <input 
-          type="text" 
+          type="search" 
           placeholder="Busque em suas notas..."
           className='w-full bg-transparent text-3xl font-semibold tracking-tight outline-none'
        />
@@ -17,14 +17,14 @@ export function App() {
       <hr className='border-slate-500' />
 
       <div className='grid grid-cols-3 auto-rows-[250px] gap-6'>
-        <NoteCard 
-          asNewNote
-          title='Adicionar nota' 
-          description='Grave uma nota em áudio que será convertida para texto automaticamente.' 
+        <NoteCard asNewNote />
+        <NoteCard
+          date={new Date()}
+          content='Lorem ipsum dolor sit amet.' 
         />
         <NoteCard
-          title='há 2 dias' 
-          description='Lorem ipsum dolor sit amet.' 
+          date={new Date()}
+          content='Consectetur adipiscing elit.' 
         />
       </div>
     </div>
