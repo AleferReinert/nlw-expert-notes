@@ -16,7 +16,10 @@ export function Search({ search, setSearch }: SearchProps) {
 				onChange={handleSearch}
 				value={search}
 				placeholder='Busque em suas notas...'
-				className='w-full bg-transparent text-3xl font-semibold tracking-tight outline-none search-cancel:hidden'
+				className='
+					w-full bg-transparent text-2xl md:text-3xl font-semibold tracking-tight
+					outline-none search-cancel:hidden
+				'
 			/>
 		</form>
 	)

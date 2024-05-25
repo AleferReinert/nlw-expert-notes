@@ -18,7 +18,11 @@ export function Modal({ children }: ModalProps) {
 			>
 				<Dialog.Close
 					title='Fechar'
-					className='p-1 absolute top-0 right-0 bg-slate-800 hover:bg-slate-900 md:rounded-bl-md transition-all outline-none'
+					className='
+						p-2 md:p-1 absolute top-0 right-0 
+						bg-slate-800 hover:bg-slate-900
+						rounded-bl-md transition-all outline-none
+					'
 				>
 					<img src={closeIcon} alt='' className='size-5' />
 				</Dialog.Close>

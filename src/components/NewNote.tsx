@@ -100,7 +100,7 @@ export function NewNote({ createNote }: NewNoteProps) {
 							placeholder={
 								isRecording ? 'Estou ouvindo! \nSua fala aparecerá aqui...' : 'Digite sua nota...'
 							}
-							className='focus:bg-red-100 text-sm leading-6 text-slate-400 bg-transparent w-full resize-none flex-1 outline-none'
+							className='text-sm leading-6 text-slate-400 bg-transparent w-full resize-none flex-1 outline-none'
 						></textarea>
 					) : (
 						<p className='text-slate-400 text-sm [&_button]:text-lime-400 [&_button]:font-normal '>
