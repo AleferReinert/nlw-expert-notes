@@ -17,7 +17,7 @@ export function Note({ id, date, content, deleteNote }: NoteProps) {
 
 	return (
 		<DialogRoot>
-			<Card title={dateFormated} description={content} />
+			<Card title={dateFormated} description={content} theme='dark' />
 			<Modal>
 				<h2 className='text-slate-200 mb-3 font-medium text-sm'>{dateFormated}</h2>
 				<form className='flex-1 flex flex-col'>

@@ -36,11 +36,12 @@ export function App() {
 			<Search search={search} setSearch={setSearch} />
 
 			<div className='grid auto-rows-[250px] gap-6 sm:grid-cols-2 md:grid-cols-3'>
-				<NewNote createNote={createNote} />
+				{!search && <NewNote createNote={createNote} />}
 
 				{filteredNotes.map(note => (
 					<Note key={note.id} id={note.id} date={note.date} content={note.content} deleteNote={deleteNote} />
 				))}
+				{search && filteredNotes.length === 0 && <p>Nenhuma nota encontrada.</p>}
 			</div>
 		</div>
 	)
