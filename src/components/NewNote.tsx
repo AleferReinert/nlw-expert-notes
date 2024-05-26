@@ -124,13 +124,18 @@ export function NewNote({ createNote }: NewNoteProps) {
 							className='text-sm leading-6 text-slate-400 bg-transparent w-full resize-none flex-1 outline-none'
 						></textarea>
 					) : (
-						<p className='text-slate-400 text-sm [&_button]:text-lime-400 [&_button]:font-normal '>
-							Comece{' '}
-							<button type='button' onClick={startRecording}>
+						<p
+							className='
+							text-slate-400 leading-8 text-md sm:text-sm 
+							[&_button]:text-lime-400 [&_button]:font-normal [&_button:hover]:underline 
+						'
+						>
+							Comece
+							<button type='button' onClick={startRecording} className='mx-1'>
 								gravando uma nota
-							</button>{' '}
-							em áudio ou se preferir{' '}
-							<button type='button' onClick={startTyping}>
+							</button>
+							em áudio ou se preferir
+							<button type='button' onClick={startTyping} className='ml-1'>
 								utilize apenas texto
 							</button>
 							.
