@@ -35,7 +35,7 @@ export function App() {
 			<img src={logo} alt='NLW Expert' className='w-min h-6 mb-6' />
 			<Search search={search} setSearch={setSearch} />
 
-			<div className='grid auto-rows-[250px] gap-6 sm:grid-cols-2 md:grid-cols-3'>
+			<div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3'>
 				{!search && <NewNote createNote={createNote} />}
 
 				{filteredNotes.map(note => (

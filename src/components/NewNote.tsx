@@ -22,7 +22,6 @@ export function NewNote({ createNote }: NewNoteProps) {
 		setContent('')
 		setIsTyping(false)
 		setIsRecording(false)
-		console.log('cleanContent')
 	}
 
 	const startTyping = () => {
@@ -68,7 +67,7 @@ export function NewNote({ createNote }: NewNoteProps) {
 
 		if (!content) {
 			setIsTyping(false)
-			toast.error('Gravação cancelada!', { duration: 2000 })
+			toast.error('Gravação cancelada!')
 		}
 	}
 
@@ -76,8 +75,8 @@ export function NewNote({ createNote }: NewNoteProps) {
 		event.preventDefault()
 		createNote(content)
 		cleanContent()
-		toast.success('Nota adicionada com sucesso!', { duration: 2000 })
 		setOpen(false)
+		toast.success('Nota adicionada com sucesso!')
 	}
 
 	useEffect(() => {
