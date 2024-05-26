@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { toast } from 'sonner'
 import logo from './assets/logo-nlw-expert.svg'
 import { NewNote } from './components/NewNote'
 import { Note, NoteProps } from './components/Note'
@@ -19,13 +18,6 @@ export function App() {
 		localStorage.setItem('notes', JSON.stringify(notesArray))
 	}
 
-	function deleteNote(id: string) {
-		const notesArray = notes.filter(note => note.id !== id)
-		setNotes(notesArray)
-		localStorage.setItem('notes', JSON.stringify(notesArray))
-		toast.success('Nota deletada com sucesso!')
-	}
-
 	const filteredNotes = search
 		? notes.filter(notes => notes.content.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
 		: notes
@@ -39,7 +31,14 @@ export function App() {
 				{!search && <NewNote createNote={createNote} />}
 
 				{filteredNotes.map(note => (
-					<Note key={note.id} id={note.id} date={note.date} content={note.content} deleteNote={deleteNote} />
+					<Note
+						key={note.id}
+						id={note.id}
+						date={note.date}
+						content={note.content}
+						notes={notes}
+						setNotes={setNotes}
+					/>
 				))}
 				{search && filteredNotes.length === 0 && <p>Nenhuma nota encontrada.</p>}
 			</div>
