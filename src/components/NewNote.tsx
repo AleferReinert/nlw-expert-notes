@@ -28,36 +28,46 @@ export function NewNote({ createNote }: NewNoteProps) {
 		setIsTyping(true)
 		setIsRecording(false)
 	}
-
 	function startRecording() {
-		setContent('')
-		const isSpeechRecognitionAPIAvailable = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
-		if (!isSpeechRecognitionAPIAvailable) {
-			toast.error('Seu navegador não suporta gravação de áudio. \nAtualize ou use outro navegador.', {
-				position: 'bottom-center',
-				duration: 5500
-			})
-			return
-		}
-		setIsRecording(true)
-		setIsTyping(true)
-		const speechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
-		speechRecognition = new speechRecognitionAPI()
-		speechRecognition.continuous = true
-		speechRecognition.interimResults = true // Retorna o resultado enquanto fala.
+		const requestMicrophonePermission = async () => {
+			try {
+				await navigator.mediaDevices.getUserMedia({ audio: true })
+				setContent('')
+				const isSpeechRecognitionAPIAvailable =
+					'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
+				if (!isSpeechRecognitionAPIAvailable) {
+					toast.error(
+						'Seu navegador não suporta gravação de áudio. \nAtualize ou use outro navegador.',
+						{
+							position: 'bottom-center',
+							duration: 5500
+						}
+					)
+					return
+				}
+				setIsRecording(true)
+				setIsTyping(true)
+				const speechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition
+				speechRecognition = new speechRecognitionAPI()
+				speechRecognition.continuous = true
+				speechRecognition.interimResults = true // Retorna o resultado enquanto fala.
 
-		speechRecognition.onresult = event => {
-			const transcription = Array.from(event.results).reduce(
-				(text, result) => text.concat(result[0].transcript),
-				''
-			)
-			setContent(transcription)
+				speechRecognition.onresult = event => {
+					const transcription = Array.from(event.results).reduce(
+						(text, result) => text.concat(result[0].transcript),
+						''
+					)
+					setContent(transcription)
+				}
+				speechRecognition.onerror = event => {
+					toast.error(event.error)
+				}
+				speechRecognition.start()
+			} catch (error) {
+				toast.error('Permissão negada para acessar o microfone!')
+			}
 		}
-		speechRecognition.onerror = event => {
-			toast.error(event.error)
-			// console.error(event.error)
-		}
-		speechRecognition.start()
+		requestMicrophonePermission()
 	}
 
 	function stopRecording(event: FormEvent) {
@@ -107,7 +117,9 @@ export function NewNote({ createNote }: NewNoteProps) {
 							disabled={isRecording}
 							autoFocus
 							placeholder={
-								isRecording ? 'Estou ouvindo! \nSua fala aparecerá aqui...' : 'Digite sua nota...'
+								isRecording
+									? 'Estou ouvindo! \nSua fala aparecerá aqui...'
+									: 'Digite sua nota...'
 							}
 							className='text-sm leading-6 text-slate-400 bg-transparent w-full resize-none flex-1 outline-none'
 						></textarea>

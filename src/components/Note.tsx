@@ -25,7 +25,7 @@ export function Note({ id, date, content, notes, setNotes }: NoteProps) {
 		localStorage.setItem('notes', JSON.stringify(notesArray))
 		toast.success('Nota deletada com sucesso!')
 		// Necessário para aguardar a animação do modal antes da renderização
-		setTimeout(() => setNotes(notesArray), 800)
+		setTimeout(() => setNotes(notesArray), 700)
 	}
 
 	return (
