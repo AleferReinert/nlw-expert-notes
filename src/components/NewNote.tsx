@@ -1,5 +1,5 @@
 import { Root as DialogRoot } from '@radix-ui/react-dialog'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from './Button'
 import { Card } from './Card'
@@ -16,11 +16,13 @@ export function NewNote({ createNote }: NewNoteProps) {
 	const [isRecording, setIsRecording] = useState(false)
 	const [isTyping, setIsTyping] = useState(false)
 	const isInteracting = isRecording || isTyping
+	const [open, setOpen] = useState(false)
 
 	function cleanContent() {
 		setContent('')
 		setIsTyping(false)
 		setIsRecording(false)
+		console.log('cleanContent')
 	}
 
 	const startTyping = () => {
@@ -52,7 +54,10 @@ export function NewNote({ createNote }: NewNoteProps) {
 			)
 			setContent(transcription)
 		}
-		speechRecognition.onerror = event => console.error(event.error)
+		speechRecognition.onerror = event => {
+			toast.error(event.error)
+			// console.error(event.error)
+		}
 		speechRecognition.start()
 	}
 
@@ -71,11 +76,16 @@ export function NewNote({ createNote }: NewNoteProps) {
 		event.preventDefault()
 		createNote(content)
 		cleanContent()
-		toast.success('Nota adicionada com sucesso!')
+		toast.success('Nota adicionada com sucesso!', { duration: 2000 })
+		setOpen(false)
 	}
 
+	useEffect(() => {
+		cleanContent()
+	}, [open])
+
 	return (
-		<DialogRoot onOpenChange={cleanContent}>
+		<DialogRoot open={open} onOpenChange={setOpen}>
 			<Card
 				title='Adicionar nota'
 				description='Grave uma nota em áudio que será convertida para texto automaticamente.'

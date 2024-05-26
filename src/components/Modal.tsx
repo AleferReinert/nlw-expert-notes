@@ -9,11 +9,22 @@ interface ModalProps {
 export function Modal({ children }: ModalProps) {
 	return (
 		<Dialog.Portal>
-			<Dialog.Overlay className='fixed inset-0 bg-black/50' />
+			<Dialog.Overlay
+				className='
+					fixed inset-0 bg-black/50 
+					data-[state=open]:animate-fadeShow
+					first-letter:data-[state=closed]:animate-fadeClose
+					data-[state=closed]:!pointer-events-none
+				'
+			/>
 			<Dialog.Content
 				className='
-                bg-slate-700 p-5 pb-16 fixed z-10 inset-0 min-h-52 overflow-hidden outline-none flex flex-col
-                    md:rounded-md md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-4/5 md:h-[80vh] md:max-w-[640px] md:max-h-[600px]
+					data-[state=open]:animate-fadeShow 
+					data-[state=closed]:animate-fadeClose 
+					md:data-[state=open]:animate-fadeVerticalShow 
+					md:data-[state=closed]:animate-fadeVerticalClose
+                	bg-slate-700 p-5 pb-16 fixed z-10 inset-0 min-h-52 overflow-hidden outline-none flex flex-col
+                	md:rounded-md md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-4/5 md:h-[80vh] md:max-w-[640px] md:max-h-[600px]
                 '
 			>
 				<Dialog.Close

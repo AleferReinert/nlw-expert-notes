@@ -23,6 +23,7 @@ export function Note({ id, date, content, deleteNote }: NoteProps) {
 				<form className='flex-1 flex flex-col'>
 					<p>{content}</p>
 
+					{/* todo: sem animação ao deletar e fechar */}
 					<Button type='submit' onClick={() => deleteNote(id)}>
 						Deseja<span className='text-red-400 ml-1'>apagar essa nota</span>?
 					</Button>
