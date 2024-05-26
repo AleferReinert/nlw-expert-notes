@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import logo from './assets/logo-nlw-expert.svg'
 import { NewNote } from './components/NewNote'
@@ -11,12 +11,6 @@ export function App() {
 		const notesOnStorage = localStorage.getItem('notes')
 		return notesOnStorage ? JSON.parse(notesOnStorage) : []
 	})
-
-	// Focar no segundo DialogTrigger após salvar
-	useEffect(() => {
-		const secondDialogTrigger = document.querySelectorAll<HTMLElement>('button[aria-haspopup="dialog"]')[1]
-		secondDialogTrigger?.focus()
-	}, [notes])
 
 	function createNote(content: string) {
 		const newNote = { id: crypto.randomUUID(), date: new Date(), content }
