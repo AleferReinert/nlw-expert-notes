@@ -18,7 +18,7 @@ export function Card({ title, description, theme = 'default' }: CardProps) {
 				<div
 					className={`
 						${themeStyles} 
-						${isNewNoteCard ? 'sm:aspect-[7/5]' : 'aspect-[7/5]'}
+						sm:aspect-[7/5]
 						p-[1.125rem] rounded-md text-left border-2 border-transparent transition-all
 						flex flex-col sm:min-h-max
 						group-hover:border-slate-600
