@@ -18,14 +18,17 @@ export function Card({ title, description, theme = 'default' }: CardProps) {
 				<div
 					className={`
 						${themeStyles} 
+						${isNewNoteCard ? 'sm:aspect-[7/5]' : 'aspect-[7/5]'}
 						p-[1.125rem] rounded-md text-left border-2 border-transparent transition-all
-						flex flex-col aspect-[2/1] sm:aspect-[7/5]
+						flex flex-col sm:min-h-max
 						group-hover:border-slate-600
 						group-focus-visible:border-lime-400
 					`}
 				>
 					<h2 className='text-sm font-medium mb-3'>{title}</h2>
-					<p className='text-slate-400 text-sm leading-6 line-clamp-6'>{description}</p>
+					<p className='text-slate-400 text-sm leading-6 line-clamp-5 md:line-clamp-3 lg:line-clamp-6 xl:line-clamp-[7]'>
+						{description}
+					</p>
 				</div>
 				{!isNewNoteCard && (
 					<div
