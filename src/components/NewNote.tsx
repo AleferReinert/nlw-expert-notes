@@ -33,16 +33,12 @@ export function NewNote({ createNote }: NewNoteProps) {
 			try {
 				await navigator.mediaDevices.getUserMedia({ audio: true })
 				setContent('')
-				const isSpeechRecognitionAPIAvailable =
-					'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
+				const isSpeechRecognitionAPIAvailable = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
 				if (!isSpeechRecognitionAPIAvailable) {
-					toast.error(
-						'Seu navegador não suporta gravação de áudio. \nAtualize ou use outro navegador.',
-						{
-							position: 'bottom-center',
-							duration: 5500
-						}
-					)
+					toast.error('Seu navegador não suporta gravação de áudio. \nAtualize ou use outro navegador.', {
+						position: 'bottom-center',
+						duration: 5500
+					})
 					return
 				}
 				setIsRecording(true)
@@ -102,7 +98,7 @@ export function NewNote({ createNote }: NewNoteProps) {
 			<Modal>
 				<h2 className='text-slate-200 mb-3 font-medium text-sm'>
 					{isInteracting ? (
-						<button onClick={cleanContent} className='text-xs text-red-400'>
+						<button onClick={cleanContent} className='text-xs text-red-400 hover:underline'>
 							{isRecording ? 'Cancelar' : 'Voltar'}
 						</button>
 					) : (
@@ -116,11 +112,7 @@ export function NewNote({ createNote }: NewNoteProps) {
 							value={content}
 							disabled={isRecording}
 							autoFocus
-							placeholder={
-								isRecording
-									? 'Estou ouvindo! \nSua fala aparecerá aqui...'
-									: 'Digite sua nota...'
-							}
+							placeholder={isRecording ? 'Estou ouvindo! \nSua fala aparecerá aqui...' : 'Digite sua nota...'}
 							className='text-sm leading-6 text-slate-400 bg-transparent w-full resize-none flex-1 outline-none'
 						></textarea>
 					) : (
@@ -159,3 +151,4 @@ export function NewNote({ createNote }: NewNoteProps) {
 		</DialogRoot>
 	)
 }
+
