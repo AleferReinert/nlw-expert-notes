@@ -34,6 +34,7 @@ Aplicação web para criar e gerenciar notas utilizando texto digitado ou grava�
 
 ## Tecnologias Utilizadas
 
+- **Husky:** Configuração de hooks Git para validações automáticas.
 - **React:** Construção da interface do usuário.
 - **Radix UI:** Componentes acessíveis e estilizados.
 - **Sonner:** Notificações de feedback.
