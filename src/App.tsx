@@ -31,14 +31,7 @@ export function App() {
 				{!search && <NewNote createNote={createNote} />}
 
 				{filteredNotes.map(note => (
-					<Note
-						key={note.id}
-						id={note.id}
-						date={note.date}
-						content={note.content}
-						notes={notes}
-						setNotes={setNotes}
-					/>
+					<Note key={note.id} id={note.id} date={note.date} content={note.content} notes={notes} setNotes={setNotes} />
 				))}
 				{search && filteredNotes.length === 0 && <p>Nenhuma nota encontrada.</p>}
 			</div>
