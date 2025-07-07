@@ -26,7 +26,7 @@ export function Card({ title, description, theme = 'default' }: CardProps) {
 					`}
 				>
 					<h2 className='text-sm font-medium mb-3'>{title}</h2>
-					<p className='text-slate-400 text-sm leading-6 line-clamp-5 md:line-clamp-3 lg:line-clamp-6 xl:line-clamp-[7]'>
+					<p className='text-slate-300 text-sm leading-6 line-clamp-5 md:line-clamp-3 lg:line-clamp-6 xl:line-clamp-[7]'>
 						{description}
 					</p>
 				</div>
@@ -43,3 +43,4 @@ export function Card({ title, description, theme = 'default' }: CardProps) {
 		</DialogTrigger>
 	)
 }
+
