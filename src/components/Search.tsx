@@ -20,7 +20,9 @@ export function Search({ search, setSearch }: SearchProps) {
 					w-full bg-transparent text-2xl md:text-3xl font-semibold tracking-tight
 					outline-none search-cancel:hidden
 				'
+				name='search'
 			/>
 		</form>
 	)
 }
+
